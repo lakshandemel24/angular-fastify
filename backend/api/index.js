@@ -8,7 +8,7 @@ fastify.register(require('@fastify/cors'), {
 // Routes
 fastify.get('/api/hello', async (request, reply) => {
     return {
-        message: 'Hello from Fastify on Vercel!',
+        message: 'Hello from Fastify on Laks Vercel!',
         timestamp: new Date().toISOString()
     };
 });
