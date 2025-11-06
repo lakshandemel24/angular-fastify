@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {Api} from './services/api';
+import { Component, signal } from '@angular/core';
+import { Api } from './services/api';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +8,9 @@ import {Api} from './services/api';
 })
 export class App {
   title = 'My Fullstack App';
-  message = '';
-  users: any[] = [];
-  loading = false;
+  message = signal<string>('');
+  loading = signal<boolean>(false);
+  users = signal<any[]>([]);
 
   constructor(private apiService: Api) {}
 
@@ -20,15 +20,15 @@ export class App {
   }
 
   fetchMessage() {
-    this.loading = true;
+    this.loading.set(true);
     this.apiService.getMessage().subscribe({
       next: (data) => {
-        this.message = data.message;
-        this.loading = false;
+        this.message.set(data.message);
+        this.loading.set(false);
       },
       error: (error) => {
         console.error('Error fetching message:', error);
-        this.loading = false;
+        this.loading.set(false);
       }
     });
   }
@@ -36,7 +36,7 @@ export class App {
   fetchUsers() {
     this.apiService.getUsers().subscribe({
       next: (data) => {
-        this.users = data;
+        this.users.set(data);
       },
       error: (error) => {
         console.error('Error fetching users:', error);

@@ -50,6 +50,15 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "dev": {
+              "outputHashing": "none",
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "progress": true,
+              "verbose": false,
+              "aot": false
             }
           },
           "defaultConfiguration": "production"
@@ -62,6 +71,11 @@
             },
             "development": {
               "buildTarget": "frontend:build:development"
+            },
+            "dev": {
+              "buildTarget": "frontend:build:dev",
+              "port": 4201,
+              "host": "localhost"
             }
           },
           "defaultConfiguration": "development"

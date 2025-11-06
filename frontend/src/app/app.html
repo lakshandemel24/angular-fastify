@@ -2,19 +2,21 @@
   ciao
   <h1>{{ title }}</h1>
 
-  @if (loading) {
+  @if (loading()) {
     <div>Loading...</div>
   }
-  @if (message) {
+
+  @if (message()) {
     <div>
       <h2>Message from Backend:</h2>
-      <p>{{ message }}</p>
+      <p>{{ message() }}</p>
     </div>
   }
-  @if (users.length > 0) {
+
+  @if (users().length > 0) {
     <h2>Users:</h2>
     <ul>
-      @for (user of users; track $index) {
+      @for (user of users(); track $index) {
         <li>{{ user.name }} - {{ user.email }}</li>
       }
     </ul>
