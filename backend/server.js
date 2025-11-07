@@ -13,7 +13,7 @@ await fastify.register(cors, {
 });
 
 // Simple route
-fastify.get('/api/hello', async (request, reply) => {
+fastify.get('/api/hello', async () => {
     return {
         message: 'Hello from Fastify (local dev)!',
         timestamp: new Date().toISOString(),
@@ -27,7 +27,7 @@ await fastify.register(fastifyMongo, {
 });
 
 // Get all users
-fastify.get('/api/users', async function (req, reply) {
+fastify.get('/api/users', async function () {
     const users = this.mongo.client.db('myapp').collection('users');
     try {
         return await users.find({}).sort({ createdAt: -1 }).toArray();
@@ -37,7 +37,7 @@ fastify.get('/api/users', async function (req, reply) {
 });
 
 // Add a new user
-fastify.post('/api/users', async function (request, reply) {
+fastify.post('/api/users', async function (request) {
     const { name } = request.body;
     const users = this.mongo.client.db('myapp').collection('users');
     const newUser = { name, createdAt: new Date() };
@@ -60,7 +60,7 @@ fastify.delete('/api/user/:id', async function (request, reply) {
         return reply.code(404).send({ success: false, message: 'User not found' });
     }
 
-    return { success: true, user: result };
+    return { success: true };
 });
 
 // Start server
