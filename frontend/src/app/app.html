@@ -1,6 +1,8 @@
 <div style="text-align:center; padding: 2rem;">
-  ciao
   <h1>{{ title }}</h1>
+
+  <input [(ngModel)]="name" placeholder="Enter your name" />
+  <button (click)="submit()">Save Name</button>
 
   @if (loading()) {
     <div>Loading...</div>
@@ -17,7 +19,7 @@
     <h2>Users:</h2>
     <ul>
       @for (user of users(); track $index) {
-        <li>{{ user.name }} - {{ user.email }}</li>
+        <li>{{ user.name }}</li> <button (click)="deleteUser(user._id)">eliminate</button>
       }
     </ul>
   }

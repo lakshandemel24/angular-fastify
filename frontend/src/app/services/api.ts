@@ -17,4 +17,12 @@ export class Api {
   getUsers(): Observable<any> {
     return this.http.get(`${this.apiUrl}/users`);
   }
+
+  postUser(name: string) {
+    return this.http.post<{ success: boolean, user: { name: string, id: number } }>(`${this.apiUrl}/users`, { name });
+  }
+
+  deleteUser(id: string) {
+    return this.http.delete<{ success: boolean }>(`${this.apiUrl}/user/` + id);
+  }
 }
