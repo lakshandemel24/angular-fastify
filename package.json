@@ -6,8 +6,11 @@
     "install:frontend": "cd frontend && npm install",
     "install:backend": "cd backend && npm install",
     "install:all": "npm run install:frontend && npm run install:backend",
-    "dev:frontend": "cd frontend && npm start",
+    "dev:frontend": "cd frontend && npm run dev",
     "dev:backend": "cd backend && npm run dev",
-    "build": "cd frontend && npm run build"
+    "dev:fullstack": "npm run dev:backend & npm run dev:frontend",
+    "vercel-dev": "vercel dev",
+    "build": "cd frontend && npm run build",
+    "clean": "rm -rf node_modules frontend/node_modules backend/node_modules"
   }
 }

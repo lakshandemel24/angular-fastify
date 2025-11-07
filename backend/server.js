@@ -1,43 +1,42 @@
+import dotenv from 'dotenv';
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import fastifyMongo from '@fastify/mongodb';
 
-// Create the Fastify instance
+dotenv.config(); // Loads .env file
+
 const fastify = Fastify({ logger: true });
 
-// Enable CORS
+// Allow CORS from Angular dev server
 await fastify.register(cors, {
-    origin: true, // Allow all origins (Vercel + local dev)
+    origin: 'http://localhost:4200',
 });
 
-// MongoDB (use Vercel env var)
-await fastify.register(fastifyMongo, {
-    forceClose: true,
-    url: process.env.MONGODB_URI, // Defined in Vercel environment variables
-});
-
-// --- Routes --- //
-
-// Hello route
+// Simple route
 fastify.get('/api/hello', async () => {
     return {
-        message: 'Hello from Fastify on Laks Vercel!',
+        message: 'Hello from Fastify (local dev)!',
         timestamp: new Date().toISOString(),
     };
 });
 
-// Get users
+// MongoDB connection
+await fastify.register(fastifyMongo, {
+    forceClose: true,
+    url: process.env.MONGODB_URI,
+});
+
+// Get all users
 fastify.get('/api/users', async function () {
     const users = this.mongo.client.db('myapp').collection('users');
     try {
         return await users.find({}).sort({ createdAt: -1 }).toArray();
     } catch (err) {
-        return { error: err.message };
+        return err;
     }
 });
 
-
-// Add user
+// Add a new user
 fastify.post('/api/users', async function (request) {
     const { name } = request.body;
     const users = this.mongo.client.db('myapp').collection('users');
@@ -46,7 +45,7 @@ fastify.post('/api/users', async function (request) {
     return { success: true, user: newUser };
 });
 
-// Delete user
+// Delete a user
 fastify.delete('/api/user/:id', async function (request, reply) {
     const { id } = request.params;
 
@@ -64,8 +63,15 @@ fastify.delete('/api/user/:id', async function (request, reply) {
     return { success: true };
 });
 
-// --- Export serverless handler --- //
-export default async function handler(req, res) {
-    await fastify.ready();
-    fastify.server.emit('request', req, res);
-}
+// Start server
+const start = async () => {
+    try {
+        await fastify.listen({ port: 3000, host: '0.0.0.0' });
+        console.log('✅ Server running at http://localhost:3000');
+    } catch (err) {
+        fastify.log.error(err);
+        process.exit(1);
+    }
+};
+
+start();

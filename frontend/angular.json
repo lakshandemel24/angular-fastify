@@ -74,7 +74,7 @@
             },
             "dev": {
               "buildTarget": "frontend:build:dev",
-              "port": 4201,
+              "port": 4200,
               "host": "localhost"
             }
           },
