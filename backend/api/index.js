@@ -1,36 +1,24 @@
-const fastify = require('fastify')({ logger: true });
+import Fastify from 'fastify';
+import cors from '@fastify/cors';
+
+// Create the Fastify instance
+const fastify = Fastify({ logger: true });
 
 // Enable CORS
-fastify.register(require('@fastify/cors'), {
-    origin: true // Allow all origins in development
+await fastify.register(cors, {
+    origin: true, // Allow all origins in development
 });
 
-// Routes
+// Define routes
 fastify.get('/api/hello', async (request, reply) => {
     return {
         message: 'Hello from Fastify on Laks Vercel!',
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
     };
 });
 
-fastify.get('/api/users', async (request, reply) => {
-    return [
-        { id: 1, name: 'John Doee', email: 'john@example.com' },
-        { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
-        { id: 3, name: 'Bob Johnson', email: 'bob@example.com' }
-    ];
-});
-
-fastify.post('/api/users', async (request, reply) => {
-    const user = request.body;
-    return {
-        success: true,
-        user: { ...user, id: Date.now() }
-    };
-});
-
-// Export handler for Vercel serverless
-module.exports = async (req, res) => {
+// Export a handler compatible with Vercel’s serverless runtime
+export default async function handler(req, res) {
     await fastify.ready();
     fastify.server.emit('request', req, res);
-};
+}
