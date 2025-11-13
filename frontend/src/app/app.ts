@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { Api } from './services/api';
+import { Api } from './core/services/api';
 import {FormsModule} from '@angular/forms';
 
 @Component({
