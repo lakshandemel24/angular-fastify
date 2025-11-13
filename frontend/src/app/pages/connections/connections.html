@@ -1,0 +1,27 @@
+<a href="/">HOME</a>
+<div>
+  <h1>{{ title }}</h1>
+
+  <input [(ngModel)]="name" placeholder="Enter your name" />
+  <button (click)="submit()">Save Name</button>
+
+  @if (loading()) {
+    <div>Loading...</div>
+  }
+
+  @if (message()) {
+    <div>
+      <h2>Message from Backend:</h2>
+      <p>{{ message() }}</p>
+    </div>
+  }
+
+  @if (users().length > 0) {
+    <h2>Users:</h2>
+    <ul>
+      @for (user of users(); track $index) {
+        <li>{{ user.name }} <button (click)="deleteUser(user)">eliminate</button></li>
+      }
+    </ul>
+  }
+</div>

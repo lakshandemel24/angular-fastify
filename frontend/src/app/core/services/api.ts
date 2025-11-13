@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
   providedIn: 'root',
 })
 export class Api {
-  private apiUrl = '/api'; // Relative URL works in production
+  private apiUrl = '/api';
 
   constructor(private http: HttpClient) { }
 
@@ -19,7 +19,7 @@ export class Api {
   }
 
   postUser(name: string) {
-    return this.http.post<{ success: boolean, user: { name: string, id: number } }>(`${this.apiUrl}/users`, { name });
+    return this.http.post<{ success: boolean, user: { name: string, _id: number } }>(`${this.apiUrl}/users`, { name });
   }
 
   deleteUser(id: string) {
